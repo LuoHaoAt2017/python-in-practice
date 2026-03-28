@@ -5,7 +5,7 @@ def add_stu(name, score):
     for stu in students:
         if stu["name"] == name:
             return False
-    students.append({name, score})
+    students.append({"name": name, "score": score})
     return True
 
 
@@ -30,3 +30,12 @@ def get_stu(name):
         if stu["name"] == name:
             return stu
     return None
+
+
+def print_all():
+    for stu in students:
+        print(f"name: {stu['name']}, score: {stu['score']}")
+
+
+add_stu("王五", 98)
+print_all()
