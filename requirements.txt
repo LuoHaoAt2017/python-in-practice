@@ -1,18 +1,35 @@
-annotated-doc==0.0.4
-annotated-types==0.7.0
-anyio==4.13.0
-black==26.3.0
-click==8.3.1
+# FastAPI core
 fastapi==0.135.2
-idna==3.11
+pydantic==2.12.5
+pydantic-settings==2.10.0
+starlette==1.0.0
+anyio==4.13.0
+uvicorn[standard]==0.34.0
+
+# Database
+sqlalchemy==2.0.38
+alembic==1.14.1
+asyncpg==0.30.0
+psycopg2-binary==2.9.10
+python-dotenv==1.0.1
+
+# Development tools
+black==26.3.0
 isort==5.5.5
 mypy_extensions==1.1.0
+pytest==8.3.4
+pytest-asyncio==0.24.0
+httpx==0.28.1
+
+# Runtime dependencies
+annotated-doc==0.0.4
+annotated-types==0.7.0
+click==8.3.1
+idna==3.11
 packaging==26.0
 pathspec==1.0.4
 platformdirs==4.9.4
-pydantic==2.12.5
 pydantic_core==2.41.5
 pytokens==0.4.1
-starlette==1.0.0
 typing-inspection==0.4.2
 typing_extensions==4.15.0
