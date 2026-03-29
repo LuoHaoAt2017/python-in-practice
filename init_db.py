@@ -48,7 +48,7 @@ def check_postgres_connection():
             port=5432,
             user="postgres",
             password="LuoHao@123",
-            database="postgres",  # Connect to default database first
+            database="sakila",  # Connect to default database first
         )
         conn.close()
         logger.info("✅ PostgreSQL connection successful")
@@ -57,7 +57,7 @@ def check_postgres_connection():
         logger.error(f"❌ PostgreSQL connection failed: {e}")
         logger.info("Make sure PostgreSQL is running and credentials are correct")
         logger.info(
-            "Default credentials: user=postgres, password=postgres, host=localhost, port=5432"
+            "Default credentials: user=postgres, password=LuoHao@123, host=localhost, port=5432"
         )
         return False
 
@@ -73,7 +73,7 @@ def create_database():
             port=5432,
             user="postgres",
             password="LuoHao@123",
-            database="postgres",
+            database="sakila",
         )
         conn.autocommit = True
         cursor = conn.cursor()
