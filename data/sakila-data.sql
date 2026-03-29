@@ -41,7 +41,7 @@ USE sakila;
 -- Dumping data for table actor
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO actor VALUES (1,'PENELOPE','GUINESS','2006-02-15 04:34:33'),
 (2,'NICK','WAHLBERG','2006-02-15 04:34:33'),
 (3,'ED','CHASE','2006-02-15 04:34:33'),
@@ -248,7 +248,7 @@ COMMIT;
 -- Dumping data for table address
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO `address` VALUES (1,'47 MySakila Drive',NULL,'Alberta',300,'','',/*!50705 0x0000000001010000003E0A325D63345CC0761FDB8D99D94840,*/'2014-09-25 22:30:27'),
 (2,'28 MySQL Boulevard',NULL,'QLD',576,'','',/*!50705 0x0000000001010000008E10D4DF812463404EE08C5022A23BC0,*/'2014-09-25 22:30:09'),
 (3,'23 Workhaven Lane',NULL,'Alberta',300,'','14033335568',/*!50705 0x000000000101000000CDC4196863345CC01DEE7E7099D94840,*/'2014-09-25 22:30:27'),
@@ -858,7 +858,7 @@ COMMIT;
 -- Dumping data for table category
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO category VALUES (1,'Action','2006-02-15 04:46:27'),
 (2,'Animation','2006-02-15 04:46:27'),
 (3,'Children','2006-02-15 04:46:27'),
@@ -881,7 +881,7 @@ COMMIT;
 -- Dumping data for table city
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO city VALUES (1,'A Coruña (La Coruña)',87,'2006-02-15 04:45:25'),
 (2,'Abha',82,'2006-02-15 04:45:25'),
 (3,'Abu Dhabi',101,'2006-02-15 04:45:25'),
@@ -1488,7 +1488,7 @@ COMMIT;
 -- Dumping data for table country
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO country VALUES (1,'Afghanistan','2006-02-15 04:44:00'),
 (2,'Algeria','2006-02-15 04:44:00'),
 (3,'American Samoa','2006-02-15 04:44:00'),
@@ -1604,7 +1604,7 @@ COMMIT;
 -- Dumping data for table customer
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO customer VALUES (1,1,'MARY','SMITH','MARY.SMITH@sakilacustomer.org',5,1,'2006-02-14 22:04:36','2006-02-15 04:57:20'),
 (2,1,'PATRICIA','JOHNSON','PATRICIA.JOHNSON@sakilacustomer.org',6,1,'2006-02-14 22:04:36','2006-02-15 04:57:20'),
 (3,1,'LINDA','WILLIAMS','LINDA.WILLIAMS@sakilacustomer.org',7,1,'2006-02-14 22:04:36','2006-02-15 04:57:20'),
@@ -2217,7 +2217,7 @@ CREATE TRIGGER customer_create_date BEFORE INSERT ON customer
 -- Dumping data for table film
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO film VALUES (1,'ACADEMY DINOSAUR','A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies',2006,1,NULL,6,'0.99',86,'20.99','PG','Deleted Scenes,Behind the Scenes','2006-02-15 05:03:42'),
 (2,'ACE GOLDFINGER','A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China',2006,1,NULL,3,'4.99',48,'12.99','G','Trailers,Deleted Scenes','2006-02-15 05:03:42'),
 (3,'ADAPTATION HOLES','A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Baloon Factory',2006,1,NULL,7,'2.99',50,'18.99','NC-17','Trailers,Deleted Scenes','2006-02-15 05:03:42'),
@@ -3224,7 +3224,7 @@ COMMIT;
 -- Dumping data for table film_actor
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO film_actor VALUES (1,1,'2006-02-15 05:05:03'),
 (1,23,'2006-02-15 05:05:03'),
 (1,25,'2006-02-15 05:05:03'),
@@ -8693,7 +8693,7 @@ COMMIT;
 -- Dumping data for table film_category
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO film_category VALUES (1,6,'2006-02-15 05:07:09'),
 (2,11,'2006-02-15 05:07:09'),
 (3,6,'2006-02-15 05:07:09'),
@@ -9700,7 +9700,7 @@ COMMIT;
 -- Dumping data for table inventory
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO inventory VALUES (1,1,1,'2006-02-15 05:09:17'),
 (2,1,1,'2006-02-15 05:09:17'),
 (3,1,1,'2006-02-15 05:09:17'),
@@ -14288,7 +14288,7 @@ COMMIT;
 -- Dumping data for table language
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO language VALUES (1,'English','2006-02-15 05:02:19'),
 (2,'Italian','2006-02-15 05:02:19'),
 (3,'Japanese','2006-02-15 05:02:19'),
@@ -14301,7 +14301,7 @@ COMMIT;
 -- Dumping data for table payment
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO payment VALUES (1,1,1,76,'2.99','2005-05-25 11:30:37','2006-02-15 22:12:30'),
 (2,1,1,573,'0.99','2005-05-28 10:35:23','2006-02-15 22:12:30'),
 (3,1,1,1185,'5.99','2005-06-15 00:54:12','2006-02-15 22:12:30'),
@@ -30359,7 +30359,7 @@ CREATE TRIGGER payment_date BEFORE INSERT ON payment
 -- Dumping data for table rental
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO rental VALUES (1,'2005-05-24 22:53:30',367,130,'2005-05-26 22:04:30',1,'2006-02-15 21:30:53'),
 (2,'2005-05-24 22:54:33',1525,459,'2005-05-28 19:40:33',1,'2006-02-15 21:30:53'),
 (3,'2005-05-24 23:03:39',1711,408,'2005-06-01 22:12:39',1,'2006-02-15 21:30:53'),
@@ -46417,7 +46417,7 @@ CREATE TRIGGER rental_date BEFORE INSERT ON rental
 -- Dumping data for table staff
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 
 --
 -- Dumping data for table `staff`
@@ -46433,7 +46433,7 @@ COMMIT;
 -- Dumping data for table store
 --
 
-SET AUTOCOMMIT=0;
+SET AUTOCOMMIT = OFF;
 INSERT INTO store VALUES (1,1,1,'2006-02-15 04:57:12'),
 (2,2,2,'2006-02-15 04:57:12');
 COMMIT;

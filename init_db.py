@@ -46,9 +46,9 @@ def check_postgres_connection():
         conn = psycopg2.connect(
             host="localhost",
             port=5432,
-            user="postgres",
-            password="postgres",
-            database="postgres"  # Connect to default database first
+            user="root",
+            password="LuoHao@123",
+            database="sakila",  # Connect to default database first
         )
         conn.close()
         logger.info("✅ PostgreSQL connection successful")
@@ -56,7 +56,9 @@ def check_postgres_connection():
     except Exception as e:
         logger.error(f"❌ PostgreSQL connection failed: {e}")
         logger.info("Make sure PostgreSQL is running and credentials are correct")
-        logger.info("Default credentials: user=postgres, password=postgres, host=localhost, port=5432")
+        logger.info(
+            "Default credentials: user=postgres, password=postgres, host=localhost, port=5432"
+        )
         return False
 
 
@@ -71,7 +73,7 @@ def create_database():
             port=5432,
             user="postgres",
             password="postgres",
-            database="postgres"
+            database="postgres",
         )
         conn.autocommit = True
         cursor = conn.cursor()
@@ -148,13 +150,13 @@ def load_sample_data():
 
             if schema_file:
                 logger.info(f"Loading schema from {schema_file}")
-                with open(schema_file, 'r', encoding='utf-8') as f:
+                with open(schema_file, "r", encoding="utf-8") as f:
                     cursor.execute(f.read())
                 logger.info("✅ Loaded schema")
 
             if data_file:
                 logger.info(f"Loading data from {data_file}")
-                with open(data_file, 'r', encoding='utf-8') as f:
+                with open(data_file, "r", encoding="utf-8") as f:
                     cursor.execute(f.read())
                 logger.info("✅ Loaded sample data")
 
@@ -177,8 +179,20 @@ def create_test_data():
         from sqlalchemy.orm import Session
         from config.database import engine
         from models import (
-            Language, Actor, Film, Category, FilmActor, FilmCategory,
-            Country, City, Address, Store, Staff, Customer, Inventory, Rental
+            Language,
+            Actor,
+            Film,
+            Category,
+            FilmActor,
+            FilmCategory,
+            Country,
+            City,
+            Address,
+            Store,
+            Staff,
+            Customer,
+            Inventory,
+            Rental,
         )
         from datetime import datetime, timedelta
 
@@ -245,8 +259,12 @@ def create_test_data():
 
             # Create film-category relationships
             film_categories = [
-                FilmCategory(film_id=films[0].film_id, category_id=categories[0].category_id),
-                FilmCategory(film_id=films[1].film_id, category_id=categories[1].category_id),
+                FilmCategory(
+                    film_id=films[0].film_id, category_id=categories[0].category_id
+                ),
+                FilmCategory(
+                    film_id=films[1].film_id, category_id=categories[1].category_id
+                ),
             ]
             session.add_all(film_categories)
 
@@ -342,10 +360,18 @@ def create_test_data():
 
 def main():
     """Main function to initialize the database."""
-    parser = argparse.ArgumentParser(description="Initialize Sakila PostgreSQL database")
-    parser.add_argument("--skip-check", action="store_true", help="Skip PostgreSQL connection check")
-    parser.add_argument("--skip-create", action="store_true", help="Skip database creation")
-    parser.add_argument("--skip-tables", action="store_true", help="Skip table creation")
+    parser = argparse.ArgumentParser(
+        description="Initialize Sakila PostgreSQL database"
+    )
+    parser.add_argument(
+        "--skip-check", action="store_true", help="Skip PostgreSQL connection check"
+    )
+    parser.add_argument(
+        "--skip-create", action="store_true", help="Skip database creation"
+    )
+    parser.add_argument(
+        "--skip-tables", action="store_true", help="Skip table creation"
+    )
     parser.add_argument("--skip-data", action="store_true", help="Skip data loading")
     parser.add_argument("--force", action="store_true", help="Force re-initialization")
 
