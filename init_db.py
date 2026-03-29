@@ -46,9 +46,9 @@ def check_postgres_connection():
         conn = psycopg2.connect(
             host="localhost",
             port=5432,
-            user="root",
+            user="postgres",
             password="LuoHao@123",
-            database="sakila",  # Connect to default database first
+            database="postgres",  # Connect to default database first
         )
         conn.close()
         logger.info("✅ PostgreSQL connection successful")
@@ -72,7 +72,7 @@ def create_database():
             host="localhost",
             port=5432,
             user="postgres",
-            password="postgres",
+            password="LuoHao@123",
             database="postgres",
         )
         conn.autocommit = True
@@ -122,11 +122,6 @@ def load_sample_data():
     """Load sample data if SQL files are available."""
     # Check for Sakila SQL files in common locations
     possible_locations = [
-        project_root / "sakila-schema.sql",
-        project_root / "sakila-data.sql",
-        project_root / "sakila.sql",
-        project_root / "sql" / "sakila-schema.sql",
-        project_root / "sql" / "sakila-data.sql",
         project_root / "data" / "sakila-schema.sql",
         project_root / "data" / "sakila-data.sql",
     ]

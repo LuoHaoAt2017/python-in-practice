@@ -14,10 +14,12 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # Database
-    database_url: str = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/sakila")
+    database_url: str = os.getenv(
+        "DATABASE_URL", "postgresql://postgres:LuoHao%40123@localhost:5432/sakila"
+    )
     database_url_async: str = os.getenv(
         "DATABASE_URL_ASYNC",
-        "postgresql+asyncpg://postgres:postgres@localhost:5432/sakila"
+        "postgresql+asyncpg://postgres:LuoHao%40123@localhost:5432/sakila",
     )
 
     # FastAPI
@@ -26,7 +28,9 @@ class Settings(BaseSettings):
     port: int = int(os.getenv("PORT", "8000"))
 
     # Security
-    secret_key: str = os.getenv("SECRET_KEY", "your-secret-key-here-change-in-production")
+    secret_key: str = os.getenv(
+        "SECRET_KEY", "your-secret-key-here-change-in-production"
+    )
 
     # API
     api_prefix: str = "/api/v1"
