@@ -2,7 +2,7 @@ import unittest
 from student import Student
 
 
-class TestStudentSystem(unittest.TestCase):
+class TestStudent(unittest.TestCase):
 
     def setUp(self):
         self.student = Student()
@@ -10,12 +10,12 @@ class TestStudentSystem(unittest.TestCase):
     # 每个 test_ 开头的方法就是一个测试用例
     def test_add_student(self):
         # 测试添加学生
-        result = student.add_stu("王五", 100)
+        result = self.student.add_stu("王五", 100)
         self.assertEqual(result, True)  # 期望添加成功
 
     def test_add_duplicate_student(self):
         # 测试重复添加（应该失败）
-        result = student.add_stu("张三", 60)
+        result = self.student.add_stu("张三", 60)
         self.assertEqual(result, False)
 
     def test_get_student(self):
