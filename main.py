@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from config.database import engine, async_engine
 from config.settings import settings
 from api.router import api_router
+from api.middleware.response_formatter import add_response_formatter
 
 # Configure logging
 logging.basicConfig(
@@ -56,6 +57,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add response formatter middleware
+add_response_formatter(app)
 
 # Include API router
 app.include_router(api_router, prefix=settings.api_prefix)
