@@ -22,10 +22,7 @@ async_engine = create_async_engine(
     echo=settings.debug,
     pool_pre_ping=True,
     pool_recycle=300,
-    future=True,
-    connect_args={
-        "server_settings": {"search_path": "sakila"}
-    }
+    future=True
 )
 
 # Synchronous session factory

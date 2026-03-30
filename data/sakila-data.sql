@@ -6,7 +6,7 @@
 SET client_encoding = 'UTF8';
 SET session_replication_role = 'replica';
 
-SET SCHEMA 'sakila';
+--SET SCHEMA 'sakila';
 
 --
 -- Dumping data for table actor

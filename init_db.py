@@ -48,7 +48,7 @@ def check_postgres_connection():
             port=5432,
             user="postgres",
             password="LuoHao@123",
-            database="sakila",  # Connect to default database first
+            database="postgres",  # Connect to default database first
         )
         conn.close()
         logger.info("✅ PostgreSQL connection successful")
@@ -73,7 +73,7 @@ def create_database():
             port=5432,
             user="postgres",
             password="LuoHao@123",
-            database="sakila",
+            database="postgres",
         )
         conn.autocommit = True
         cursor = conn.cursor()
@@ -120,45 +120,32 @@ def create_tables():
 
 def load_sample_data():
     """Load sample data if SQL files are available."""
-    # Check for Sakila SQL files in common locations
-    possible_locations = [
-        project_root / "data" / "sakila-schema.sql",
-        project_root / "data" / "sakila-data.sql",
-    ]
+    import subprocess
 
-    schema_file = None
-    data_file = None
+    # Only load data file - tables are already created by SQLAlchemy
+    data_file = project_root / "data" / "sakila-data.sql"
 
-    for location in possible_locations:
-        if location.name.endswith("-schema.sql") and location.exists():
-            schema_file = location
-        elif location.name.endswith("-data.sql") and location.exists():
-            data_file = location
-
-    if schema_file or data_file:
+    if data_file.exists():
         try:
-            import psycopg2
-            from config.settings import settings
+            logger.info(f"Loading data from {data_file}")
 
-            conn = psycopg2.connect(settings.database_url)
-            cursor = conn.cursor()
+            # Use psql command to execute SQL file (more reliable for large files)
+            env = os.environ.copy()
+            env["PGPASSWORD"] = "LuoHao@123"
 
-            if schema_file:
-                logger.info(f"Loading schema from {schema_file}")
-                with open(schema_file, "r", encoding="utf-8") as f:
-                    cursor.execute(f.read())
-                logger.info("✅ Loaded schema")
+            result = subprocess.run(
+                ["psql", "-U", "postgres", "-d", "sakila", "-f", str(data_file)],
+                env=env,
+                capture_output=True,
+                text=True,
+            )
 
-            if data_file:
-                logger.info(f"Loading data from {data_file}")
-                with open(data_file, "r", encoding="utf-8") as f:
-                    cursor.execute(f.read())
+            if result.returncode == 0:
                 logger.info("✅ Loaded sample data")
-
-            conn.commit()
-            cursor.close()
-            conn.close()
-            return True
+                return True
+            else:
+                logger.error(f"❌ psql failed: {result.stderr}")
+                return False
 
         except Exception as e:
             logger.error(f"❌ Failed to load sample data: {e}")

@@ -5,9 +5,9 @@
 
 SET client_encoding = 'UTF8';
 
-DROP SCHEMA IF EXISTS sakila CASCADE;
-CREATE SCHEMA sakila;
-SET SCHEMA 'sakila';
+--DROP SCHEMA IF EXISTS sakila CASCADE;
+--CREATE SCHEMA sakila;
+--SET SCHEMA 'sakila';
 
 --
 -- Definition for type RATING
