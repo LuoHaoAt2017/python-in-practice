@@ -22,10 +22,11 @@ CREATE DOMAIN YEARONLY AS INT
 -- Common trigger function
 --
 
-CREATE FUNCTION set_last_update_func() RETURNS TRIGGER 
-AS $$  
+CREATE FUNCTION set_last_update_func() RETURNS TRIGGER
+AS $$
 BEGIN
   NEW.last_update=CURRENT_TIMESTAMP;
+  RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 

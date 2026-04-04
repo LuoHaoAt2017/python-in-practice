@@ -14,6 +14,7 @@ engine = create_engine(
     echo=settings.debug,
     pool_pre_ping=True,
     pool_recycle=300,
+    connect_args={"options": "-csearch_path=public"},
 )
 
 # Asynchronous engine for FastAPI endpoints

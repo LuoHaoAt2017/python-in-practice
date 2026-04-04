@@ -118,58 +118,54 @@ def create_tables():
         return False
 
 
+def sql_files_exist():
+    """Check if Sakila SQL files are available."""
+    schema_file = project_root / "data" / "sakila-schema.sql"
+    data_file = project_root / "data" / "sakila-data.sql"
+    return schema_file.exists() and data_file.exists()
+
+
 def load_sample_data():
     """Load sample data if SQL files are available."""
-    # Check for Sakila SQL files in common locations
-    possible_locations = [
-        project_root / "data" / "sakila-schema.sql",
-        project_root / "data" / "sakila-data.sql",
-    ]
+    schema_file = project_root / "data" / "sakila-schema.sql"
+    data_file = project_root / "data" / "sakila-data.sql"
 
-    schema_file = None
-    data_file = None
-
-    for location in possible_locations:
-        if location.name.endswith("-schema.sql") and location.exists():
-            schema_file = location
-        elif location.name.endswith("-data.sql") and location.exists():
-            data_file = location
-
-    if schema_file and data_file:
+    if schema_file.exists() and data_file.exists():
         try:
             import psycopg2
             from config.settings import settings
 
-            logger.info(f"Loading Sakila schema and data from SQL files...")
+            logger.info("Loading Sakila schema and data from SQL files...")
 
-            # Connect to database
             conn = psycopg2.connect(settings.database_url)
+            conn.autocommit = False
             cursor = conn.cursor()
 
-            # First, ensure we're in public schema (drop sakila schema if exists)
-            cursor.execute("DROP SCHEMA IF EXISTS sakila CASCADE")
-            cursor.execute("SET search_path TO public")
+            # Reset public schema to clean state to avoid conflicts with any
+            # previously created objects (types, tables, triggers, etc.)
+            logger.info("Resetting public schema...")
+            cursor.execute("DROP SCHEMA public CASCADE")
+            cursor.execute("CREATE SCHEMA public")
+            cursor.execute("GRANT ALL ON SCHEMA public TO postgres")
+            cursor.execute("GRANT ALL ON SCHEMA public TO public")
+            conn.commit()
 
             # Load schema
             logger.info(f"Loading schema from {schema_file}")
-            schema_content = ""
             with open(schema_file, "r", encoding="utf-8") as f:
                 schema_content = f.read()
-
-            # Execute schema SQL
             cursor.execute(schema_content)
+            conn.commit()
             logger.info("✅ Loaded Sakila schema (tables, types, triggers)")
 
             # Load data
             logger.info(f"Loading data from {data_file}")
             with open(data_file, "r", encoding="utf-8") as f:
                 data_content = f.read()
-
-            # Execute data SQL
             cursor.execute(data_content)
+            conn.commit()
             logger.info("✅ Loaded Sakila sample data")
 
-            conn.commit()
             cursor.close()
             conn.close()
             return True
@@ -406,11 +402,16 @@ def main():
     else:
         logger.info("ℹ️  Skipping database creation")
 
-    # Step 3: Create tables
+    # Step 3: Create tables via ORM only when SQL files are absent.
+    # When sakila-schema.sql is present, tables are created in Step 4 via SQL,
+    # so running ORM create_all here would produce conflicting objects.
     if not args.skip_tables:
-        logger.info("Step 3: Creating tables...")
-        if not create_tables():
-            sys.exit(1)
+        if sql_files_exist():
+            logger.info("ℹ️  Sakila SQL files found — skipping ORM table creation (Step 4 will handle it)")
+        else:
+            logger.info("Step 3: Creating tables via ORM...")
+            if not create_tables():
+                sys.exit(1)
     else:
         logger.info("ℹ️  Skipping table creation")
 
