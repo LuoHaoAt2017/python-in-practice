@@ -48,7 +48,7 @@ def check_postgres_connection():
             port=5432,
             user="postgres",
             password="LuoHao@123",
-            database="sakila",  # Connect to default database first
+            database="postgres",  # Connect to default database first
         )
         conn.close()
         logger.info("✅ PostgreSQL connection successful")
@@ -73,7 +73,7 @@ def create_database():
             port=5432,
             user="postgres",
             password="LuoHao@123",
-            database="sakila",
+            database="postgres",
         )
         conn.autocommit = True
         cursor = conn.cursor()
@@ -135,25 +135,39 @@ def load_sample_data():
         elif location.name.endswith("-data.sql") and location.exists():
             data_file = location
 
-    if schema_file or data_file:
+    if schema_file and data_file:
         try:
             import psycopg2
             from config.settings import settings
 
+            logger.info(f"Loading Sakila schema and data from SQL files...")
+
+            # Connect to database
             conn = psycopg2.connect(settings.database_url)
             cursor = conn.cursor()
 
-            if schema_file:
-                logger.info(f"Loading schema from {schema_file}")
-                with open(schema_file, "r", encoding="utf-8") as f:
-                    cursor.execute(f.read())
-                logger.info("✅ Loaded schema")
+            # First, ensure we're in public schema (drop sakila schema if exists)
+            cursor.execute("DROP SCHEMA IF EXISTS sakila CASCADE")
+            cursor.execute("SET search_path TO public")
 
-            if data_file:
-                logger.info(f"Loading data from {data_file}")
-                with open(data_file, "r", encoding="utf-8") as f:
-                    cursor.execute(f.read())
-                logger.info("✅ Loaded sample data")
+            # Load schema
+            logger.info(f"Loading schema from {schema_file}")
+            schema_content = ""
+            with open(schema_file, "r", encoding="utf-8") as f:
+                schema_content = f.read()
+
+            # Execute schema SQL
+            cursor.execute(schema_content)
+            logger.info("✅ Loaded Sakila schema (tables, types, triggers)")
+
+            # Load data
+            logger.info(f"Loading data from {data_file}")
+            with open(data_file, "r", encoding="utf-8") as f:
+                data_content = f.read()
+
+            # Execute data SQL
+            cursor.execute(data_content)
+            logger.info("✅ Loaded Sakila sample data")
 
             conn.commit()
             cursor.close()
@@ -162,6 +176,8 @@ def load_sample_data():
 
         except Exception as e:
             logger.error(f"❌ Failed to load sample data: {e}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
             return False
     else:
         logger.info("ℹ️  No Sakila SQL files found. Creating test data instead.")

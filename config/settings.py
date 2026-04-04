@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     # Database
     database_url: str = os.getenv(
         "DATABASE_URL",
-        "postgresql://postgres:LuoHao%40123@localhost:5432/sakila?options=-csearch_path%3Dsakila",
+        "postgresql://postgres:LuoHao%40123@localhost:5432/sakila",
     )
     database_url_async: str = os.getenv(
         "DATABASE_URL_ASYNC",

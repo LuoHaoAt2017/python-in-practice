@@ -24,7 +24,7 @@ async_engine = create_async_engine(
     pool_recycle=300,
     future=True,
     connect_args={
-        "server_settings": {"search_path": "sakila"}
+        "server_settings": {"search_path": "public"}
     }
 )
 
