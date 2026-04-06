@@ -1,7 +1,21 @@
 {
-  "APIKEY": "cr_a22cdfe35e161b613674c14b635a9f2982e6740752ffefa6385e932ee2816128",
+  "APIKEY": "",
   "PORT": 3456,
   "Router": {
-    "default": "anthropic,claude-3-5-sonnet-20240620"
-  }
+    "default": "glm,glm-5"
+  },
+  "Providers": [
+    {
+      "name": "glm",
+      "baseUrl": "https://open.bigmodel.cn/api/anthropic",
+      "apiKey": "6b2a8a8de58044898e108a25f94ccf09.JD3p2gQeXqFQQTta",
+      "models": ["glm-5"]
+    },
+    {
+      "name": "deepseek",
+      "baseUrl": "https://api.deepseek.com/anthropic",
+      "apiKey": "sk-ad7e117fedcb4424b5715423e398cc52",
+      "models": ["deepseek-reasoner", "deepseek-coder"]
+    }
+  ]
 }
