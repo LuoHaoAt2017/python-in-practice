@@ -1,0 +1,10 @@
+{
+  "CLAUDE_API_KEY": "cr_a22cdfe35e161b613674c14b635a9f2982e6740752ffefa6385e932ee2816128",
+  "Providers": [
+    {
+      "name": "claude",
+      "api_base_url": "https://claude-code.club/api",
+      "api_key": "${CLAUDE_API_KEY}"
+    }
+  ]
+}
