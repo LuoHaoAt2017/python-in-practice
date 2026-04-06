@@ -15,6 +15,7 @@ from .payment import Payment
 from .rental import Rental
 from .staff import Staff
 from .store import Store
+from .user import User
 
 __all__ = [
     "Base",
@@ -33,4 +34,5 @@ __all__ = [
     "Rental",
     "Staff",
     "Store",
+    "User",
 ]
