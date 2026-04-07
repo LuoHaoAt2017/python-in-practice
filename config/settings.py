@@ -33,6 +33,12 @@ class Settings(BaseSettings):
         "SECRET_KEY", "your-secret-key-here-change-in-production"
     )
 
+    # JWT
+    jwt_algorithm: str = os.getenv("JWT_ALGORITHM", "HS256")
+    access_token_expire_minutes: int = int(
+        os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30")
+    )
+
     # API
     api_prefix: str = "/api/v1"
 

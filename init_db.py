@@ -118,37 +118,61 @@ def create_tables():
         return False
 
 
+def sql_files_exist():
+    """Check if Sakila SQL files are available."""
+    schema_file = project_root / "data" / "sakila-schema.sql"
+    data_file = project_root / "data" / "sakila-data.sql"
+    return schema_file.exists() and data_file.exists()
+
+
 def load_sample_data():
     """Load sample data if SQL files are available."""
-    import subprocess
-
-    # Only load data file - tables are already created by SQLAlchemy
+    schema_file = project_root / "data" / "sakila-schema.sql"
     data_file = project_root / "data" / "sakila-data.sql"
 
-    if data_file.exists():
+    if schema_file.exists() and data_file.exists():
         try:
             logger.info(f"Loading data from {data_file}")
 
-            # Use psql command to execute SQL file (more reliable for large files)
-            env = os.environ.copy()
-            env["PGPASSWORD"] = "LuoHao@123"
+            logger.info("Loading Sakila schema and data from SQL files...")
 
-            result = subprocess.run(
-                ["psql", "-U", "postgres", "-d", "sakila", "-f", str(data_file)],
-                env=env,
-                capture_output=True,
-                text=True,
-            )
+            conn = psycopg2.connect(settings.database_url)
+            conn.autocommit = False
+            cursor = conn.cursor()
 
-            if result.returncode == 0:
-                logger.info("✅ Loaded sample data")
-                return True
-            else:
-                logger.error(f"❌ psql failed: {result.stderr}")
-                return False
+            # Reset public schema to clean state to avoid conflicts with any
+            # previously created objects (types, tables, triggers, etc.)
+            logger.info("Resetting public schema...")
+            cursor.execute("DROP SCHEMA public CASCADE")
+            cursor.execute("CREATE SCHEMA public")
+            cursor.execute("GRANT ALL ON SCHEMA public TO postgres")
+            cursor.execute("GRANT ALL ON SCHEMA public TO public")
+            conn.commit()
+
+            # Load schema
+            logger.info(f"Loading schema from {schema_file}")
+            with open(schema_file, "r", encoding="utf-8") as f:
+                schema_content = f.read()
+            cursor.execute(schema_content)
+            conn.commit()
+            logger.info("✅ Loaded Sakila schema (tables, types, triggers)")
+
+            # Load data
+            logger.info(f"Loading data from {data_file}")
+            with open(data_file, "r", encoding="utf-8") as f:
+                data_content = f.read()
+            cursor.execute(data_content)
+            conn.commit()
+            logger.info("✅ Loaded Sakila sample data")
+
+            cursor.close()
+            conn.close()
+            return True
 
         except Exception as e:
             logger.error(f"❌ Failed to load sample data: {e}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
             return False
     else:
         logger.info("ℹ️  No Sakila SQL files found. Creating test data instead.")
@@ -377,11 +401,16 @@ def main():
     else:
         logger.info("ℹ️  Skipping database creation")
 
-    # Step 3: Create tables
+    # Step 3: Create tables via ORM only when SQL files are absent.
+    # When sakila-schema.sql is present, tables are created in Step 4 via SQL,
+    # so running ORM create_all here would produce conflicting objects.
     if not args.skip_tables:
-        logger.info("Step 3: Creating tables...")
-        if not create_tables():
-            sys.exit(1)
+        if sql_files_exist():
+            logger.info("ℹ️  Sakila SQL files found — skipping ORM table creation (Step 4 will handle it)")
+        else:
+            logger.info("Step 3: Creating tables via ORM...")
+            if not create_tables():
+                sys.exit(1)
     else:
         logger.info("ℹ️  Skipping table creation")
 
