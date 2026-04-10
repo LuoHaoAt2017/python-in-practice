@@ -1,5 +1,11 @@
-"""Functional programming exercises (examples).
+"""函数式编程练习（示例代码）。
 
-These modules are intended to be imported by tests and read alongside
-`docs/python/functional_programming_7_exercises.md`.
+本包提供 7 道练习的可运行参考实现。
+
+设计目标（刻意为之）：
+- 函数尽量小、接口清晰、易于单元测试。
+- 尽量使用纯函数（不做 I/O、不修改入参、不依赖外部可变状态）。
+- 强调组合：高阶函数、装饰器、迭代器/生成器管道。
+
+对应文档：docs/python/functional_programming_7_exercises.md
 """

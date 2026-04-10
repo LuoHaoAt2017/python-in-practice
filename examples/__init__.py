@@ -1,1 +1,4 @@
-"""Runnable examples for the repository."""
+"""仓库中的可运行示例代码。
+
+该包收纳独立、可导入的代码示例，供文档与测试用例引用。
+"""
