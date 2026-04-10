@@ -189,3 +189,28 @@ def test_ex7_invariant_segment_matches_country() -> None:
         assert (u.country == "CN" and u.segment == "domestic") or (
             u.country != "CN" and u.segment == "overseas"
         )
+
+def test_list_comprehension_map() -> None:
+    input = [1, 2, 3, 4, 5]
+    # 列表推导式【表达式 + for + 可选 if】
+    assert [x * x for x in input] == [1, 4, 9, 16, 25]
+
+def test_list_comprehension_filter() -> None:
+    input = [1, 2, 3, 4, 5]
+    # 列表推导式【表达式 + for + 可选 if】
+    assert [x for x in input if x % 2 == 0] == [2, 4]
+    
+def test_list_comprehension_filter_map() -> None:
+    input = [1, 2, 3, 4, 5]
+    # 列表推导式【表达式 + for + 可选 if】
+    assert [x * 2 for x in input if x % 2 == 0] == [4, 8]
+   
+def test_list_comprehension_nested() -> None:
+    input = [[1, 2], [3, 4], [5]]
+    # 列表推导式【表达式 + for + 可选 if】
+    assert [y for x in input for y in x] == [1, 2, 3, 4, 5]
+    
+def test_list_comprehension_with_tuple_unpacking() -> None:
+    input = [(1, 'a'), (2, 'b'), (3, 'c')]
+    # 列表推导式【表达式 + for + 可选 if】
+    assert [f"{num}:{char}" for num, char in input] == ["1:a", "2:b", "3:c"]
