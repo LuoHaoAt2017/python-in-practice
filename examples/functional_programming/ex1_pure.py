@@ -31,6 +31,8 @@ def _title_words(value: str) -> str:
     """把姓名按“单词首字母大写”规范化。
 
     说明：这是一个纯函数辅助方法，只依赖入参 `value`。
+    列表推导式：[x for x in lst] → 用 []
+    生成器表达式：(x for x in lst) → 用 ()
     """
     words = [w for w in value.strip().split() if w]
     return " ".join(w[:1].upper() + w[1:].lower() for w in words)
